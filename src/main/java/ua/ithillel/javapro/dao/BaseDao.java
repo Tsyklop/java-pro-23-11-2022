@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class BaseDao<T> {
 
@@ -80,7 +81,49 @@ public abstract class BaseDao<T> {
 
         try (Connection connection = this.dataSource.getConnection()) {
 
-            /*try (PreparedStatement ps = connection.prepareStatement(INSERT_SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            StringBuilder insertSql = new StringBuilder("INSERT INTO \"" + this.entityMetaInfo.getTableName() + "\" (");
+
+            /*for (OrmEntityColumn column : this.entityMetaInfo.getColumns()) {
+
+                if (column.getName().equals(this.entityMetaInfo.getPrimaryKey().getName())) {
+                    continue;
+                }
+
+                insertSql.append(column.getName()).append(',');
+
+            }*/
+
+            insertSql.append(
+                            this.entityMetaInfo.getColumns()
+                                    .stream()
+                                    .filter(column -> !column.getName().equals(this.entityMetaInfo.getPrimaryKey().getName()))
+                                    .map(column -> "\"" + column.getName() + "\"")
+                                    .collect(Collectors.joining(","))
+                    )
+                    .append(") ");
+
+            insertSql.append("VALUES (")
+                    .append(
+                            this.entityMetaInfo.getColumns()
+                                    .stream()
+                                    .filter(column -> !column.getName().equals(this.entityMetaInfo.getPrimaryKey().getName()))
+                                    .map(column -> "?")
+                                    .collect(Collectors.joining(","))
+                    )
+                    .append(")");
+
+            try (PreparedStatement ps = connection.prepareStatement(insertSql.toString(), PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+                for (OrmEntityColumn column : this.entityMetaInfo.getColumns()) {
+
+                    if (column.getName().equals(this.entityMetaInfo.getPrimaryKey().getName())) {
+                        continue;
+                    }
+
+                    // TODO
+                    //column.getField().getType()
+
+                }
 
                 ps.setString(1, entity.getLogin());
                 ps.setString(2, entity.getFio());
@@ -100,7 +143,7 @@ public abstract class BaseDao<T> {
                 entityMetaInfo.getPrimaryKey().getField().set(entity, gkrs.getInt(1));
                 entityMetaInfo.getPrimaryKey().getField().setAccessible(false);
 
-            }*/
+            }
 
         }
 
