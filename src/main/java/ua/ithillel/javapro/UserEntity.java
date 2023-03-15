@@ -1,12 +1,15 @@
 package ua.ithillel.javapro;
 
 import ua.ithillel.javapro.reflection.Column;
+import ua.ithillel.javapro.reflection.Id;
+import ua.ithillel.javapro.reflection.Table;
 
 import java.util.Date;
 
-//@Table(name = "user")
+@Table(name = "user")
 public class UserEntity {
 
+    @Id
     private Integer id;
 
     private String fio;

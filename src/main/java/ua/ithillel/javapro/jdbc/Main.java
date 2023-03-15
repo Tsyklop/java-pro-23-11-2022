@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Main {
 
-    private static final ua.ithillel.javapro.Main.RowMapper<UserEntity> userRowMapper = new ua.ithillel.javapro.Main.UserRowMapper();
+    private static final RowMapper<UserEntity> userRowMapper = new UserRowMapper();
 
     private final static String USER_INSERT_SQL = "INSERT INTO \"user\" (login, fio, role, password, birthday, created_at) VALUES (?, ?, ?, ?, ?, ?);";
 
@@ -259,12 +259,6 @@ public class Main {
                     }
 
                 }
-
-                /*if (fieldType == String.class) {
-                    field.set(obj, value);
-                } else if (fieldType == Date.class) {
-                    field.set(obj, (Date) value);
-                }*/
 
             }
 
