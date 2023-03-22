@@ -125,13 +125,13 @@ public abstract class BaseDao<T> {
 
                 }
 
-                ps.setString(1, entity.getLogin());
+                /*ps.setString(1, entity.getLogin());
                 ps.setString(2, entity.getFio());
                 ps.setString(3, entity.getRole());
                 ps.setString(4, entity.getPassword());
 
                 ps.setDate(5, new java.sql.Date(entity.getBirthday().getTime()));
-                ps.setDate(6, new java.sql.Date(entity.getCreatedAt().getTime()));
+                ps.setDate(6, new java.sql.Date(entity.getCreatedAt().getTime()));*/
 
                 ps.executeUpdate();
 

@@ -6,6 +6,7 @@ import ua.ithillel.javapro.reflection.Column;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -56,7 +57,7 @@ public class Main {
                     while (resultSet.next()) {
 
                         for (int i = 0; i < metaData.getColumnCount(); i++) {
-                            resultSet.getString(metaData.getColumnName(i));
+                            resultSet.getString(metaData.getColumnName(i + 1));
                         }
 
                         String login = resultSet.getString("login");
